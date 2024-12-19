@@ -1,0 +1,130 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  header {
+    background: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+  }
+  
+  header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    color: #444;
+  }
+  
+  /* Tasks Section */
+  #tasks {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  #task-list {
+    margin-top: 20px;
+  }
+  
+  .task-group {
+    margin-bottom: 20px;
+  }
+  
+  .task-item {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 0;
+  }
+  
+  .task-item:last-child {
+    border-bottom: none;
+  }
+  
+  .task-item h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form input,
+  form textarea,
+  form button {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  form button {
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background: #444;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 600px) {
+    header img {
+      width: 80px;
+      height: 80px;
+    }
+  
+    nav ul li {
+      display: block;
+      margin: 5px 0;
+    }
+  
+    form input,
+    form textarea,
+    form button {
+      font-size: 14px;
+    }
+  }
+  

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio with Tasks</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+    
+</head>
+<body>
+  <header>
+    <img src="foto.jpg" alt="Profile Picture" />
+    <h1>Portofolio Saya</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#tasks">Tugas</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>Tentang Saya</h2>
+    <p>
+      Selamat datang di portofolio saya! Di sini, Anda dapat menemukan
+      informasi tentang saya dan tugas-tugas yang telah saya selesaikan selama
+      masa studi saya.
+    </p>
+  </section>
+
+  <section id="tasks">
+    <h2>Tugas Saya</h2>
+    <div id="task-list">
+      <!-- Grouped Tasks will appear here -->
+    </div>
+
+    <h3>Tambahkan Tugas Baru</h3>
+    <form id="add-task-form">
+      <input type="text" id="task-title" placeholder="Judul Tugas" required />
+      <input type="text" id="task-course" placeholder="Nama Mata Kuliah" required />
+      <textarea
+        id="task-desc"
+        rows="3"
+        placeholder="Deskripsi Tugas"
+      ></textarea>
+      <input type="file" id="task-file" accept=".html,.css,.js" multiple required />
+      <button type="button" id="add-task-btn">Tambah Tugas</button>
+    </form>
+  </section>
+
+  <section id="contact">
+    <h2>Kontak Saya</h2>
+    <p>
+      Anda dapat menghubungi saya melalui email saya:
+      juandajuanda1614@gmail.com
+    </p>
+  </section>
+
+  <script>
+    // Object to hold tasks grouped by course
+    const taskGroups = JSON.parse(localStorage.getItem("tasks")) || {};
+
+    // Function to render tasks grouped by course
+    function renderTasks() {
+      const taskListDiv = document.getElementById("task-list");
+      taskListDiv.innerHTML = ""; // Clear previous tasks
+      for (const course in taskGroups) {
+        const tasks = taskGroups[course];
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "task-group";
+        groupDiv.innerHTML = `<h3>${course}</h3>`;
+        tasks.forEach((task, index) => {
+          const filesHTML = task.files.map((file) => `<a href="${file.url}" target="_blank">${file.name}</a>`).join("<br>");
+          groupDiv.innerHTML += `
+            <div class="task-item">
+              <h4>${task.title}</h4>
+              <p>${task.description}</p>
+              <div>${filesHTML}</div>
+              <button onclick="deleteTask('${course}', ${index})">Hapus</button>
+            </div>
+          `;
+        });
+        taskListDiv.appendChild(groupDiv);
+      }
+    }
+
+    // Function to add a task
+    document.getElementById("add-task-btn").addEventListener("click", () => {
+      const title = document.getElementById("task-title").value;
+      const course = document.getElementById("task-course").value;
+      const description = document.getElementById("task-desc").value;
+      const fileInput = document.getElementById("task-file");
+
+      if (title && course && fileInput.files.length > 0) {
+        const files = Array.from(fileInput.files).map((file) => {
+          return {
+            name: file.name,
+            url: URL.createObjectURL(file),
+          };
+        });
+
+        if (!taskGroups[course]) {
+          taskGroups[course] = [];
+        }
+        taskGroups[course].push({ title, description, files });
+
+        localStorage.setItem("tasks", JSON.stringify(taskGroups)); // Save tasks to localStorage
+
+        renderTasks(); // Update task list
+        document.getElementById("add-task-form").reset(); // Clear form
+      } else {
+        alert("Harap isi semua kolom yang diperlukan dan unggah file.");
+      }
+    });
+
+    // Function to delete a task
+    function deleteTask(course, index) {
+      taskGroups[course].splice(index, 1); // Remove task
+      if (taskGroups[course].length === 0) {
+        delete taskGroups[course]; // Remove course if empty
+      }
+      localStorage.setItem("tasks", JSON.stringify(taskGroups)); // Update localStorage
+      renderTasks(); // Update task list
+    }
+
+    // Render tasks on page load
+    renderTasks();
+  </script>
+</body>
+</html>
